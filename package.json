@@ -1,0 +1,41 @@
+{
+  "name": "algo-reporter",
+  "version": "0.1.0",
+  "description": "CLI to generate algorithm problem solving reports with GPT-5",
+  "type": "module",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.18.0"
+  },
+  "bin": {
+    "algo-reporter": "./dist/index.mjs"
+  },
+  "scripts": {
+    "dev": "tsx src/index.ts",
+    "build": "tsc -p tsconfig.json",
+    "start": "node dist/index.mjs",
+    "report": "tsx src/index.ts report",
+    "config": "tsx src/index.ts config set",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "eslint . --ext .ts",
+    "format": "prettier --write .",
+    "demo": "tsx src/index.ts report --url https://www.acmicpc.net/problem/2750 --code examples/2750.py --lang python"
+  },
+  "dependencies": {
+    "commander": "^12.1.0",
+    "dotenv": "^16.4.5",
+    "openai": "^4.56.0",
+    "simple-git": "^3.27.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.7.5",
+    "eslint": "^9.11.1",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-import": "^2.31.0",
+    "prettier": "^3.3.3",
+    "tsx": "^4.19.1",
+    "typescript": "^5.6.2",
+    "vitest": "^2.1.1"
+  }
+}
