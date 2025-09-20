@@ -1,80 +1,70 @@
-# algo-reporter
+# AlgoReporter – 알고리즘 풀이 자동 리포트 생성기 (CLI)
 
-Node.js + TypeScript 기반 알고리즘 풀이 리포트 생성 CLI.
+## 프로젝트 개요
 
-## 설치
+**AlgoReporter**는 알고리즘 문제 풀이 과정을 자동으로 문서화해주는 CLI 도구입니다.  
+사용자는 백준(BOJ) 또는 LeetCode 문제 URL과 풀이 코드를 입력하면, LLM(OpenAI GPT 모델)을 활용해 다음을 자동 생성합니다:
 
-```bash
-# PNPM 권장
+- 문제 요약
+- 풀이 접근 아이디어
+- 시간/공간 복잡도 분석
+- 대안 접근 방법
+- 주석 강화 버전 코드
+- 회고 섹션
+
+생성된 리포트는 Markdown 파일(`reports/YYYY-MM-DD_<문제ID>.md`)로 저장되며, 옵션에 따라 GitHub 저장소에 자동 커밋할 수도 있습니다.
+
+## 주요 기능
+
+- CLI 명령어 기반:
+  ```bash
+  pnpm tsx src/index.ts report --url <문제URL> --code <풀이코드> --lang <언어> [--commit]
+  ```
+- OpenAI API(gpt-5.1-mini 등) 기반 자동 분석
+- 길이가 긴 코드의 경우 핵심 함수만 발췌하여 주석 강화
+- GitHub 브랜치 생성 및 자동 커밋 옵션 지원
+
+## 설치 및 실행
+
+1. 저장소 클론:
+
+```
+git clone https://github.com/<username>/algo-reporter.git
+cd algo-reporter
+```
+
+2. 의존성 설치
+
+```
 pnpm install
-# 또는 npm
-npm install
 ```
 
-환경 변수 설정:
+3. 환경변수 설정:
 
-- `.env` 파일에 `OPENAI_API_KEY` 추가 또는 `algo-reporter config set openaiKey <키>` 사용
-
-## 사용법
-
-예시:
-
-```bash
-pnpm tsx src/index.ts report \
-  --url https://www.acmicpc.net/problem/2750 \
-  --code examples/2750.py \
-  --lang python
+```
+cp .env.example .env
+# .env 파일에 OPENAI_API_KEY 입력
 ```
 
-- `--commit` 옵션을 추가하면 새 브랜치(`algo/report-<id>`)를 생성하고 커밋 후 origin으로 푸시합니다.
+4. 실행 예시
 
-환경 설정:
-
-```bash
-pnpm tsx src/index.ts config set openaiKey sk-...
+```
+pnpm tsx src/index.ts report --url "https://www.acmicpc.net/problem/10817" --code ".\examples\10817.py" --lang python
 ```
 
-Windows/macOS 환경 변수 팁은 명령 실행 후 안내문이 출력됩니다.
+## 산출물 예시
 
-## 출력
+- `reports/2025-09-16_10817.md` 자동 생성
+- 내부 구조:
+  - 문제 요약
+  - 접근 아이디어
+  - 시간·공간 복잡도
+  - 대안 접근
+  - 주석 강화 코드
+  - 회고
 
-- `reports/YYYY-MM-DD_<문제ID>.md` 형식의 마크다운 파일이 생성됩니다.
-- 섹션: 문제 요약, 접근, 시간·공간 복잡도, 대안 접근, 주석 강화 코드, 회고.
+## 개선 방향
 
-## 스크린샷 가이드
-
-- 생성된 파일을 에디터에서 열고 상단 타이틀/목차가 보이도록 캡처하세요.
-- 경로: `reports/` 폴더 아래 최신 파일.
-
-## 개발
-
-테스트 실행:
-
-```bash
-pnpm test
-```
-
-린트/포매팅:
-
-```bash
-pnpm lint
-pnpm format
-```
-
-로컬 데모:
-
-```bash
-pnpm demo
-```
-
-## 제약 및 주의사항
-
-- LLM 응답이 JSON 형식이 아닐 경우 보정 로직이 적용됩니다.
-- 코드가 길면 핵심 함수만 발췌하여 주석 강화가 진행됩니다.
-- Git 저장소/원격이 없거나 인증 실패 시 친절한 가이드 메시지가 출력됩니다.
-
-## 개선 아이디어
-
-- 플랫폼별 메타데이터(문제 제목 자동 수집)
-- 템플릿 커스터마이징 옵션
-- 추가 플랫폼 지원 (Programmers 등)
+- 더 많은 플랫폼 지원(Programmers, Codeforces 등)
+- HTML/PDF 리포트 변환 기능 추가
+- 코드 실행/테스트 결과 자동 포함
